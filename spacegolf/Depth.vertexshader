@@ -1,0 +1,24 @@
+#version 330 core
+
+// Input vertex data, different for all executions of this shader.
+layout (location = 0) in vec3 vertexPosition_modelspace;
+layout (location = 3) in mat4 aInstanceMatrix;
+layout (location = 7) in mat4 rotationMatrix;
+layout (location = 11) in float scale;
+
+uniform int particles = 0;
+
+// Values that stay constant for the whole mesh.
+uniform mat4 VP;
+uniform mat4 M;
+
+void main()
+{
+    gl_Position =  VP * M * vec4(vertexPosition_modelspace, 1);
+    if (particles ==1){
+        gl_Position =  VP * aInstanceMatrix * rotationMatrix * vec4(vertexPosition_modelspace * scale, 1) ;
+
+        gl_PointSize = 10;
+    }
+    
+}
